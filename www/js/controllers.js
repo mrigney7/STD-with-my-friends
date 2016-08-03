@@ -4,6 +4,10 @@ angular.module('app.controllers', [])
 $ionicLoading.show(); $ionicLoading.hide();
 })
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 90695fb2388b000f364b98ec0b095224103ce449
 .controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout) {
 	console.log("map is loading");
 	 $scope.ready = false; 
