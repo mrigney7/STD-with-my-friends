@@ -1,8 +1,9 @@
 angular.module('app.controllers', [])
  
 .controller('homeCtrl', function($scope, $ionicLoading) {
-$ionicLoading.show(); ionicLoading.hide;
+$ionicLoading.show(); $ionicLoading.hide();
 })
+
 
 .controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout) {
 	console.log("map is loading");
