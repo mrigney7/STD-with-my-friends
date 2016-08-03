@@ -1,7 +1,7 @@
 angular.module('app.controllers', [])
  
-.controller('homeCtrl', function($scope) {
-
+.controller('homeCtrl', function($scope, $ionicLoading) {
+$ionicLoading.show(); ionicLoading.hide;
 })
 
 .controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout) {
