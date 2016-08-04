@@ -1,12 +1,11 @@
 angular.module('app.controllers', [])
  
-.controller('homeCtrl', function($scope) {
- 
+.controller('homeCtrl', function($scope, $ionicLoading) {
+$ionicLoading.show(); $ionicLoading.hide();
 })
-.controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout, $ionicLoading) {
+.controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout) {
 	console.log("map is loading");
 	 $scope.ready = false; 
-	 $ionicLoading.show({template: '<img src = "img/syringe.gif">' , noBackdrop: false });
 
     navigator.geolocation.getCurrentPosition(function($position){
 	    // success!
@@ -39,10 +38,13 @@ angular.module('app.controllers', [])
 		     }];
 
 		     $scope.ready= true;  
-		   $ionicLoading.hide();
     };
 })
    
-.controller('clinic4Ctrl', function($scope) {
+.controller('clinicInfoCtrl', function($scope) {
+
+})
+
+.controller('clinicServicesCtrl', function($scope) {
 
 });
