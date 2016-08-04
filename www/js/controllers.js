@@ -1,11 +1,12 @@
 angular.module('app.controllers', [])
  
-.controller('homeCtrl', function($scope, $ionicLoading) {
-$ionicLoading.show(); $ionicLoading.hide();
+.controller('homeCtrl', function($scope) {
+ 
 })
-.controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout) {
+.controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout, $ionicLoading) {
 	console.log("map is loading");
 	 $scope.ready = false; 
+	 $ionicLoading.show({template: '<img src = "img/syringe.gif">' , noBackdrop: false });
 
     navigator.geolocation.getCurrentPosition(function($position){
 	    // success!
@@ -38,6 +39,7 @@ $ionicLoading.show(); $ionicLoading.hide();
 		     }];
 
 		     $scope.ready= true;  
+		   $ionicLoading.hide();
     };
 })
    
