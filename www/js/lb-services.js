@@ -13,7 +13,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 (function(window, angular, undefined) {
   'use strict';
 
-  var urlBase = "https:/serenazhao.tk/api";
+  var urlBase = "http://serenazhao.tk/api";
   var authHeader = 'authorization';
 
   function getHost(url) {

@@ -20,8 +20,6 @@
     </ion-content>
 </ion-view>
 -->
-
-
 <style type="text/css">.angular-google-map-container { height: 300px; width: 100%;  }
 </style>
 <ion-view cache-view="false" view-title="Map">
@@ -47,7 +45,6 @@
     </ui-gmap-google-map>
 
 		      </div>
-{{response}}
         <ion-list id="map-list1" class="" >
             <ion-item id="map-list-item1" ui-sref="clinicInfo"class="assertive ">Clinic 1</ion-item>
             <ion-item id="map-list-item2" ui-sref="clinicInfo"class="assertive  ">Clinic 2</ion-item>
