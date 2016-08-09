@@ -1,69 +1,23 @@
 angular.module('app.controllers', [])
  
 .controller('homeCtrl', function($scope) {
+
 })
-
-
-.controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout, $ionicLoading, Clinic, $ionicPopup) {
+    .controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout, $ionicLoading, Clinic) {
 	console.log("map is loading");
 	 $scope.ready = false; 
-	 $ionicLoading.show({template: '<img src = "img/syringe.gif">' , noBackdrop: false });
+	$ionicLoading.show({template: '<img src = "img/syringe.gif">' , noBackdrop: false });
 
 	Clinic.find({})
 	    .$promise
 	    .then(function success(response){
 		    alert(1);
-		    $scope.response = response;
-		    	for (var i = 0; i < response.length; i++){
-					$scope.response[i].long_coords = {
-						latitude: $scope.response[i].point.lat,
-						longitude: $scope.response[i].point.lng
-					}
-				}
-			console.log(response);
-			
+console.log(response);
+		$scope.response = response;
 	    }, function error(response){
-		    alert(2);
-			console.log(response);
-
-		
+		    //alert(2);
+		console.log(response);
 	    });
-
-	    		$scope.response = [{
-	    			id: 0,
-	    			point: {
-	    				latitude: 0,
-	    				longitude: 0
-	    			}
-	    		}];
-
-	    		$scope.cluster = {
-        			typeOptions: {
-            			zoomOnClick: true,
-            			minimumClusterSize: 1
-       				 },
-       				 typeEvents: {
-            			click: function(cluster, clusterModels) {
-                
-                			if (clusterModels.length == 1) {
-                    			var popup_scope = $scope.$new(true);
-                    			popup_scope.tickets = clusterModels;
-                    			popup_scope.popup = $ionicPopup.show({
-                        			templateUrl: "templates/response.popup.html",
-                        			scope: popup_scope,
-                        			buttons: [
-                            			{text: "Cancel",
-                             			type: "button-stable"}
-                       				 ]
-                        
-                    			});
-                			} else {}
-           				 }
-
-        			}
-
-
-    			};
 
     navigator.geolocation.getCurrentPosition(function($position){
 	    // success!
@@ -191,28 +145,4 @@ angular.module('app.controllers', [])
 		    }, function error(data){
 			
 		    });
-})
-.controller("response_popup_controller", function($scope, $state) {
-    $scope.go = function(ticket) {
-        $scope.popup.close();
-        $state.go("response_display", {
-            ticket_id: ticket.id
-        });
-    }
-
-
-
-})
-
-.controller("response_display", function($scope, $stateParams, $state, Clinic) {
-    Clinic.findById({
-            id: $stateParams.ticket_id
-        })
-        .$promise
-        .then(function(find_success) {
-            $scope.response = find_success;
-        }, function error(response) {
-
-        });
-
 });

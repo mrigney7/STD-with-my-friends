@@ -34,6 +34,12 @@ angular.module('app.routes', [])
     controller: 'clinicServicesCtrl'
   })
 
+  .state('response_display', {
+    url:'/details/:ticket_id'
+    templateUrl: 'templates/response_details.html' ,
+    controller: 'response_display'
+  })
+
 $urlRouterProvider.otherwise('/home')
 
   
