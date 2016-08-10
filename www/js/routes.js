@@ -35,8 +35,8 @@ angular.module('app.routes', [])
   })
 
   .state('response_display', {
-    url:'/details/:ticket_id'
-    templateUrl: 'templates/response_details.html' ,
+    url:'/details/:ticket_id',
+    templateUrl: 'templates/response_details.html',
     controller: 'response_display'
   })
 

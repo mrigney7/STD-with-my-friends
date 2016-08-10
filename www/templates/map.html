@@ -44,10 +44,15 @@
         ></ui-gmap-search-box>
       <ui-gmap-markers models="me" coords="'coords'" idKey="'id'" icon="'icon'"></ui-gmap-markers>
       <ui-gmap-markers models="place" coords="'coords'" idkey="'id'" icon="'icon'" options="'options'" events="events"></ui-gmap-markers>
+      <ui-gmap-markers
+         models="clinics"
+         coords="'long_geolocation'"
+         icon="'icon'"
+         click="'onClicked'"
+        ></ui-gmap-markers>
     </ui-gmap-google-map>
 
 		      </div>
-{{response}}
         <ion-list id="map-list1" class="" >
             <ion-item id="map-list-item1" ui-sref="clinicInfo"class="assertive ">Clinic 1</ion-item>
             <ion-item id="map-list-item2" ui-sref="clinicInfo"class="assertive  ">Clinic 2</ion-item>

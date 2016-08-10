@@ -6,64 +6,34 @@ angular.module('app.controllers', [])
 
 .controller('mapCtrl', function($scope, $state, uiGmapGoogleMapApi, uiGmapIsReady, $rootScope, $timeout, $ionicLoading, Clinic, $ionicPopup) {
 	console.log("map is loading");
-	 $scope.ready = false; 
+	 $scope.ready = false;
+	 $scope.clinic_markers = {ready: false};
 	 $ionicLoading.show({template: '<img src = "img/syringe.gif">' , noBackdrop: false });
 
-	Clinic.find({})
-	    .$promise
-	    .then(function success(response){
-		    alert(1);
-		    $scope.response = response;
-		    	for (var i = 0; i < response.length; i++){
-					$scope.response[i].long_coords = {
-						latitude: $scope.response[i].point.lat,
-						longitude: $scope.response[i].point.lng
-					}
-				}
-			console.log(response);
-			
-	    }, function error(response){
-		    alert(2);
-			console.log(response);
-
-		
-	    });
-
-	    		$scope.response = [{
-	    			id: 0,
-	    			point: {
-	    				latitude: 0,
-	    				longitude: 0
-	    			}
-	    		}];
-
-	    		$scope.cluster = {
-        			typeOptions: {
-            			zoomOnClick: true,
-            			minimumClusterSize: 1
-       				 },
-       				 typeEvents: {
-            			click: function(cluster, clusterModels) {
-                
-                			if (clusterModels.length == 1) {
-                    			var popup_scope = $scope.$new(true);
-                    			popup_scope.tickets = clusterModels;
-                    			popup_scope.popup = $ionicPopup.show({
-                        			templateUrl: "templates/response.popup.html",
-                        			scope: popup_scope,
-                        			buttons: [
-                            			{text: "Cancel",
-                             			type: "button-stable"}
-                       				 ]
-                        
-                    			});
-                			} else {}
-           				 }
-
-        			}
-
-
-    			};
+	// $scope.cluster = {
+	// 	typeOptions: {
+	// 		zoomOnClick: true,
+	// 		minimumClusterSize: 1
+	// 	},
+	// 	typeEvents: {
+	// 		click: function(cluster, clusterModels) {
+    
+ //    			if (clusterModels.length == 1) {
+ //        			var popup_scope = $scope.$new(true);
+ //        			popup_scope.tickets = clusterModels;
+ //        			popup_scope.popup = $ionicPopup.show({
+ //            			templateUrl: "templates/response.popup.html",
+ //            			scope: popup_scope,
+ //            			buttons: [
+ //                			{text: "Cancel",
+ //                 			type: "button-stable"}
+ //           				 ]
+            
+ //        			});
+ //    			} else {}
+	// 		}
+	// 	}
+	// };
 
     navigator.geolocation.getCurrentPosition(function($position){
 	    // success!
@@ -99,99 +69,130 @@ angular.module('app.controllers', [])
     var setup_map = function($latitude, $longitude){
     	console.log($latitude);
     	console.log($longitude);
-	uiGmapGoogleMapApi.then(function(maps){
-	    $scope.map = {};
-	    $scope.map.center = {latitude: parseFloat($latitude),
-				 longitude: parseFloat($longitude)};
-	    $scope.map.zoom = 14;
-	    $scope.map.searchbox = { 
-        	template:'searchbox.tpl.html', 
-        	events:{
-            	places_changed: function (searchbox) {
-            		var place = searchbox.getPlaces();
-				    if (!place || place == 'undefined' || place.length == 0) {
-				        console.log('no place data :(');
-				        return;
-				    }
+		uiGmapGoogleMapApi.then(function(maps){
+		    $scope.map = {};
+		    $scope.map.center = {latitude: parseFloat($latitude),
+					 longitude: parseFloat($longitude)};
+		    $scope.map.zoom = 14;
+		    $scope.map.searchbox = { 
+	        	template:'searchbox.tpl.html', 
+	        	events:{
+	            	places_changed: function (searchbox) {
+	            		var place = searchbox.getPlaces();
+					    if (!place || place == 'undefined' || place.length == 0) {
+					        console.log('no place data :(');
+					        return;
+					    }
 
-				    $scope.map = {
-				        "center": {
-				            "latitude": place[0].geometry.location.lat(),
-				            "longitude": place[0].geometry.location.lng()
-				        },
-				        "zoom": 18
-				    };
+					    $scope.map = {
+					        "center": {
+					            "latitude": place[0].geometry.location.lat(),
+					            "longitude": place[0].geometry.location.lng()
+					        },
+					        "zoom": 18
+					    };
 
-				    $scope.place = [{
-					    id: 'place',
-					    place_id: place[0].place_id,
-					    name: place[0].name,
-					    address: place[0].formatted_address,
-					    coords: {latitude: place[0].geometry.location.lat(),
-					             longitude: place[0].geometry.location.lng()},
-					    latlng: place[0].geometry.location.lat() + ',' + place[0].geometry.location.lng()
-					}];
+					    $scope.place = [{
+						    id: 'place',
+						    place_id: place[0].place_id,
+						    name: place[0].name,
+						    address: place[0].formatted_address,
+						    coords: {latitude: place[0].geometry.location.lat(),
+						             longitude: place[0].geometry.location.lng()},
+						    latlng: place[0].geometry.location.lat() + ',' + place[0].geometry.location.lng()
+						}];
+			    	}
+	        	}
 		    }
-        	}
-	    }
-        maps.visualRefresh = true;
-	});
+	        maps.visualRefresh = true;
+		});
 
-	$scope.place = [{
-	    'id': 'place',
-	    'coords': {
-	        'latitude': parseFloat($latitude),
-	        'longitude': parseFloat($longitude)
-	    },
-	    options: {
-	    	draggable: true
-	    },
-	    events: {
-	        dragend: function (marker, eventName, args) {
+		$scope.place = [{
+		    'id': 'place',
+		    'coords': {
+		        'latitude': parseFloat($latitude),
+		        'longitude': parseFloat($longitude)
+		    },
+		    options: {
+		    	draggable: true
+		    },
+		    events: {
+		        dragend: function (marker, eventName, args) {
 
-	            $scope.marker.options = {
-	                draggable: true,
-	                labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-	                labelAnchor: "100 0",
-	                labelClass: "marker-labels"
-	            };
-	        },
-	        places_changed: function (searchbox) {
-				placeToMarker(searchbox, id);
-  			}
-	    }
-	}];
+		            $scope.marker.options = {
+		                draggable: true,
+		                labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
+		                labelAnchor: "100 0",
+		                labelClass: "marker-labels"
+		            };
+		        },
+		        places_changed: function (searchbox) {
+					placeToMarker(searchbox, id);
+	  			}
+		    }
+		}];
 
-	$scope.me = [{'id':'me',
-		'coords': {'latitude': parseFloat($latitude),
-			'longitude': parseFloat($longitude)
-		},
-		'icon': "img/mylocation.png",
-		'options': {
-			'icon': {
-			  //'scaledSize': new google.maps.Size(34, 44)
+		$scope.me = [{'id':'me',
+			'coords': {'latitude': parseFloat($latitude),
+				'longitude': parseFloat($longitude)
+			},
+			'icon': "img/mylocation.png",
+			'options': {
+				'icon': {
+				  //'scaledSize': new google.maps.Size(34, 44)
+				}
 			}
-		}
-	}];
-
-		     $scope.ready= true;  
-		     $ionicLoading.hide();
+		}];
+		$ionicLoading.hide();
+		find_nearby_clinics($latitude, $longitude);
+	    $scope.ready = true;
     };
+
+
+    var find_nearby_clinics = function($latitude, $longitude){
+		var $my_location = {lat: $latitude, lng: $longitude};
+		Clinic.find({
+			"where": {
+				"near": $my_location
+			}
+		})
+	    .$promise
+	    .then(function success($response){
+			// recompile latitude, longitude from lat, lng
+			
+		    for (var i = 0; i < $response.length; i++){
+				$response[i].long_geolocation = {
+					latitude: $response[i].Location.lat,
+					longitude: $response[i].Location.lng
+				}
+				//$scope.response[i].icon = "img/marker.png";
+//			    console.log("Long geolocations inputted: " + $scope.response[i]);
+			}
+			$scope.clinics = $response;
+			//console.log($scope.clinics);
+			//$scope.clinic_markers.ready = true;
+	    }, function error(response){
+		    alert(response);
+			console.log(response);
+	    });
+    }
+
 })
    
 .controller('clinicInfoCtrl', function($scope) {
 })
 
-    .controller('clinicServicesCtrl', function($scope, $stateParam, Clinic) {
+.controller('clinicServicesCtrl', function($scope, $stateParam, Clinic) {
 	    var clinic_id = $stateParam.clinic_id;
 	    Clinic.findOne({where: {id: clinic_id}, include: "services"})
 		.$promise
 		.then(function success(data){
 			console.log(data);
-		    }, function error(data){
-			
-		    });
+		}, function error(data){
+			console.log("Error: " + data);
+		});
 })
+
 .controller("response_popup_controller", function($scope, $state) {
     $scope.go = function(ticket) {
         $scope.popup.close();
@@ -199,9 +200,6 @@ angular.module('app.controllers', [])
             ticket_id: ticket.id
         });
     }
-
-
-
 })
 
 .controller("response_display", function($scope, $stateParams, $state, Clinic) {
