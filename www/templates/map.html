@@ -1,29 +1,4 @@
-<!--
-<ion-view title="Map" id="map" class=" ">
-    <ion-content padding="true" class="has-header">
-        <p id="map-markdown3" style="color:#000000;text-align:center;" class=" ">
-            <strong>(your location)</strong>
-        </p>
-        <div class="map">
-          <ui-gmap-google-map center='map.center' zoom='map.zoom'> 
-           <ui-gmap-marker coords="map.center"  idkey="'1'">
-			</ui-gmap-marker>
-          </ui-gmap-google-map>
-        </div>
-        <ion-list id="map-list1" class=" ">
-            <ion-item id="map-list-item1" class="  ">Clinic 1</ion-item>
-            <ion-item id="map-list-item2" class="  ">Clinic 2</ion-item>
-            <ion-item id="map-list-item3" class="  ">Clinic 3</ion-item>
-            <ion-item id="map-list-item4" ui-sref="clinic4" class="  ">Clinic 4</ion-item>
-            <ion-item id="map-list-item5" class="  ">Clinic 5</ion-item>
-        </ion-list>
-    </ion-content>
-</ion-view>
--->
-
-
-<style type="text/css">.angular-google-map-container { height: 300px; width: 100%;  }
-</style>
+<style type="text/css">.angular-google-map-container { height: 550px; width: 100%;}</style>
 <ion-view cache-view="false" view-title="Map">
   <ion-content>
     <!-- in your HTML, declare where you want the searchBox. parentdiv: 'searchBoxParent' above looks for the id="searchBoxParent" in HTML-->
@@ -48,17 +23,8 @@
          models="clinics"
          coords="'long_geolocation'"
          icon="'icon'"
-         click="'onClicked'"
+         events="clinic_events"
         ></ui-gmap-markers>
     </ui-gmap-google-map>
-
-		      </div>
-        <ion-list id="map-list1" class="" >
-            <ion-item id="map-list-item1" ui-sref="clinicInfo"class="assertive ">Clinic 1</ion-item>
-            <ion-item id="map-list-item2" ui-sref="clinicInfo"class="assertive  ">Clinic 2</ion-item>
-            <ion-item id="map-list-item3" ui-sref="clinicInfo"class="assertive  ">Clinic 3</ion-item>
-            <ion-item id="map-list-item4" ui-sref="clinicInfo" class="assertive  ">Clinic 4</ion-item>
-            <ion-item id="map-list-item5" ui-sref="clinicInfo"class="assertive">Clinic 5</ion-item>
-        </ion-list>
   </ion-content>
 </ion-view>

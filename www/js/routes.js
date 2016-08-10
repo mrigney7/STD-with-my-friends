@@ -29,7 +29,7 @@ angular.module('app.routes', [])
   })
 
   .state('clinicServices', { 
-    url: '/clinicServices', 
+    url: '/clinicServices/:clinic_id', 
     templateUrl: 'templates/clinicServices.html',
     controller: 'clinicServicesCtrl'
   })
