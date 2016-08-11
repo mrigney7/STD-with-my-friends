@@ -203,15 +203,15 @@ $scope.clinics = $response;
 })
    
 .controller('clinicInfoCtrl', function($scope) {
-	
+
 })
 
 .controller('clinicServicesCtrl', function($scope, $stateParams, Clinic) {
 	    var clinic_id = $stateParams.clinic_id;
-	    Clinic.findOne({where: {id: clinic_id}, include: "services"})
+	    Clinic.find({filter: {where: {id: clinic_id}, include: "offers"}})
 		.$promise
 		.then(function success(data){
-			console.log(data);
+			$scope.clinic = data[0];
 		}, function error(data){
 			console.log("Error: " + data);
 		});
